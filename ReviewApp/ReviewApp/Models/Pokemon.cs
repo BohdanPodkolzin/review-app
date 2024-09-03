@@ -6,12 +6,12 @@
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
 
-        public ICollection<Review> Reviews { get; } = new List<Review>();
+        public ICollection<Review> Reviews { get; set; } = [];
 
-        public List<PokemonOwner> PokemonOwner { get; } = [];
+        public List<PokemonOwner> PokemonOwner { get; set;  } = [];
         public List<Owner> Owners { get; } = [];
 
-        public List<PokemonCategories> PokemonCategories { get; } = [];
+        public List<PokemonCategory> PokemonCategories { get; set; } = [];
         public List<Category> Categories { get; } = [];
     }
 }
