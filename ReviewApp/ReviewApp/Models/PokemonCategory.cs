@@ -1,10 +1,11 @@
 ﻿namespace ReviewApp.Models
 {
-    public class PokemonOwner
+    public class PokemonCategories
     {
         public int PokemonId { get; set; }
-        public int OwnerId { get; set; }
+        public int CategoryId { get; set; }
+
         public Pokemon Pokemon { get; set; } = null!;
-        public Owner Owner { get; set; } = null!;
+        public Category Category  { get; set; } = null!;
     }
 }
