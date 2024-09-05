@@ -10,7 +10,7 @@ namespace ReviewApp.Context
         public DbSet<Category> Categories { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Owner> Owners { get; set; }
-        public DbSet<Pokemon> Pokemons { get; set; }
+        public DbSet<Pokemon?> Pokemons { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Reviewer> Reviewers { get; set; }
         
@@ -19,6 +19,15 @@ namespace ReviewApp.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            foreach (var property in modelBuilder.Model.GetEntityTypes()
+                         .SelectMany(t => t.GetProperties())
+                         .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
+            {
+                property.SetColumnType("decimal(18,2)");
+            }
+
+
+            // many to many Pokemon-Category
             modelBuilder.Entity<PokemonCategory>()
                 .HasKey(pc => new{ pc.CategoryId, pc.PokemonId });
             modelBuilder.Entity<PokemonCategory>()
@@ -30,6 +39,7 @@ namespace ReviewApp.Context
                 .WithMany(pc => pc.PokemonCategories)
                 .HasForeignKey(c => c.CategoryId);
 
+            // many to many Pokemon-Owner
             modelBuilder.Entity<PokemonOwner>()
                 .HasKey(pc => new { pc.OwnerId, pc.PokemonId });
             modelBuilder.Entity<PokemonOwner>()
