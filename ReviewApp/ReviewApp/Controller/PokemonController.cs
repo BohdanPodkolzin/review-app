@@ -4,7 +4,7 @@ using ReviewApp.Dto;
 using ReviewApp.Interfaces;
 using ReviewApp.Models;
 
-namespace ReviewApp.Controllers
+namespace ReviewApp.Controller
 {
     [ApiController]
     [Route("api/[controller]")]

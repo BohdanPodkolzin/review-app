@@ -8,18 +8,19 @@ namespace ReviewApp.Repository
 {
     public class PokemonRepository(PokemonContext context) : IPokemonRepository
     {
+        private readonly PokemonContext _context = context;
         public ICollection<Pokemon> GetPokemons()
-            => context.Pokemons.OrderBy(p => p.Id).ToList();
+            => _context.Pokemons.OrderBy(p => p.Id).ToList();
 
         public Pokemon? GetPokemon(int id)
-            => context.Pokemons.SingleOrDefault(pokemon => pokemon.Id == id);
+            => _context.Pokemons.SingleOrDefault(pokemon => pokemon.Id == id);
 
         public Pokemon? GetPokemon(string name)
-            => context.Pokemons.FirstOrDefault(pokemon => pokemon.Name == name);
+            => _context.Pokemons.FirstOrDefault(pokemon => pokemon.Name == name);
 
         public decimal GetPokemonRating(int pokemonId)
         {
-            var reviews = context.Reviews.Where(review => review.PokemonId == pokemonId);
+            var reviews = _context.Reviews.Where(review => review.PokemonId == pokemonId);
             
             if (!reviews.Any()) return 0;
 
@@ -27,6 +28,6 @@ namespace ReviewApp.Repository
         }
 
         public bool PokemonExists(int pokemonId)
-            => context.Pokemons.Any(pokemon => pokemon != null && pokemon.Id == pokemonId);
+            => _context.Pokemons.Any(pokemon => pokemon != null && pokemon.Id == pokemonId);
     }
 }

@@ -7,8 +7,8 @@ namespace ReviewApp.Context
     {
         public PokemonContext(DbContextOptions<PokemonContext> options) : base(options) { }
 
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Country> Countries { get; set; }
+        public DbSet<Category?> Categories { get; set; }
+        public DbSet<Country?> Countries { get; set; }
         public DbSet<Owner> Owners { get; set; }
         public DbSet<Pokemon?> Pokemons { get; set; }
         public DbSet<Review> Reviews { get; set; }
