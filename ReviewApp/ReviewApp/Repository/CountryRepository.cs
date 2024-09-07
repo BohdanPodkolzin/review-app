@@ -13,7 +13,7 @@ namespace ReviewApp.Repository
         public Country? GetCountry(int id)
             => _context.Countries.SingleOrDefault(x => x != null && x.Id == id);
 
-        public ICollection<Owner> GetOwnersByCountry(int countryId)
+        public ICollection<Owner?> GetOwnersByCountry(int countryId)
             => _context.Owners.Where(owner => owner.CountryId == countryId).ToList();
 
         public Country? GetCountryByOwner(int ownerId)

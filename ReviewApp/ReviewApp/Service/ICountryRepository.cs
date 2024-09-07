@@ -7,7 +7,7 @@ namespace ReviewApp.Service
     {
         ICollection<Country> GetCountries();
         Country? GetCountry(int id);
-        ICollection<Owner> GetOwnersByCountry(int countryId);
+        ICollection<Owner?> GetOwnersByCountry(int countryId);
         Country? GetCountryByOwner(int ownerId);
         bool IsCountryExists(int id);
     }
