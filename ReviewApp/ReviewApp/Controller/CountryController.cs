@@ -23,6 +23,8 @@ namespace ReviewApp.Controller
         }
 
         [HttpGet("{countryId}")]
+        [ProducesResponseType(200, Type = typeof(CountryDto))]
+        [ProducesResponseType(404)]
         public IActionResult GetCountry(int countryId)
         {
             if (!countryRepository.IsCountryExists(countryId)) return NotFound();
@@ -35,13 +37,14 @@ namespace ReviewApp.Controller
         }
 
         [HttpGet("{countryId}/owners")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Owner>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<OwnerDto>))]
+        [ProducesResponseType(404)]
         public IActionResult GetOwnersByCountry(int countryId)
         {
             if (!countryRepository.IsCountryExists(countryId)) return NotFound();
 
-            //  
-            var owners = countryRepository.GetOwnersByCountry(countryId);
+              
+            var owners = mapper.Map<List<OwnerDto>>(countryRepository.GetOwnersByCountry(countryId));
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -49,7 +52,8 @@ namespace ReviewApp.Controller
         }
 
         [HttpGet("{ownerId}/country")]
-        [ProducesResponseType(200, Type = typeof(Country))]
+        [ProducesResponseType(200, Type = typeof(CountryDto))]
+        [ProducesResponseType(404)]
         public IActionResult Get(int ownerId)
         {
             var country = mapper.Map<CountryDto>(countryRepository.GetCountryByOwner(ownerId));

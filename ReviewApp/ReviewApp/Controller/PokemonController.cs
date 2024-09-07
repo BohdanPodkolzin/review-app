@@ -22,7 +22,7 @@ namespace ReviewApp.Controller
         }
 
         [HttpGet("{pokeId}")]
-        [ProducesResponseType(200, Type = typeof(Pokemon))]
+        [ProducesResponseType(200, Type = typeof(PokemonDto))]
         [ProducesResponseType(400)]
         public IActionResult GetPokemon(int pokeId)
         {

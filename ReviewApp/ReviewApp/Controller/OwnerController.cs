@@ -27,6 +27,7 @@ namespace ReviewApp.Controller
 
         [HttpGet("{id:int}")]
         [ProducesResponseType(200, Type = typeof(OwnerDto))]
+        [ProducesResponseType(404)]
         public IActionResult GetOwner(int id)
         {
             if (!_ownerRepository.IsOwnerExists(id)) return NotFound();
@@ -40,6 +41,7 @@ namespace ReviewApp.Controller
 
         [HttpGet("{ownerId}/pokemons")]
         [ProducesResponseType(200, Type = typeof(ICollection<PokemonDto>))]
+        [ProducesResponseType(404)]
         public IActionResult GetPokemonsByOwner(int ownerId)
         {
             if (!_ownerRepository.IsOwnerExists(ownerId)) return NotFound();
@@ -53,6 +55,7 @@ namespace ReviewApp.Controller
 
         [HttpGet("{pokeId}")]
         [ProducesResponseType(200, Type = typeof(ICollection<OwnerDto>))]
+        [ProducesResponseType(400)]
         public IActionResult GetOwnersByPokemon(int pokeId)
         {
             var pokemons = _mapper.Map<ICollection<OwnerDto>>(_ownerRepository.GetOwnersOfPokemon(pokeId));

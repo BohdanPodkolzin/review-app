@@ -14,7 +14,7 @@ namespace ReviewApp.Controller
         public readonly IMapper _mapper = mapper;
 
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<CategoryDto>))]
         public IActionResult GetCategories()
         {
             var categories = mapper.Map<ICollection<CategoryDto>>(_categoryRepository.GetCategories());
@@ -25,7 +25,7 @@ namespace ReviewApp.Controller
         }
 
         [HttpGet("{categoryId}")]
-        [ProducesResponseType(200, Type = typeof(Category))]
+        [ProducesResponseType(200, Type = typeof(CategoryDto))]
         [ProducesResponseType(404)]
         public IActionResult GetCategory(int id)
         {
@@ -39,7 +39,7 @@ namespace ReviewApp.Controller
         }
 
         [HttpGet("{categoryId}/pokemons")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Pokemon>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<PokemonDto>))]
         [ProducesResponseType(404)]
         public IActionResult GetPokemonByCategory(int categoryId)
         {
