@@ -29,5 +29,36 @@ namespace ReviewApp.Repository
 
         public bool PokemonExists(int pokemonId)
             => _context.Pokemons.Any(pokemon => pokemon != null && pokemon.Id == pokemonId);
+
+        public bool CreatePokemon(int ownerId, int categoryId, Pokemon pokemon)
+        {
+            var pokemonOwnerEntity = _context.Owners.SingleOrDefault(x => x != null && x.Id == ownerId);
+
+            var pokemonOwner = new PokemonOwner()
+            {
+                Owner = pokemonOwnerEntity,
+                Pokemon = pokemon
+            };
+
+            _context.Add(pokemonOwnerEntity);
+
+            var pokemonCategoryEntity = _context.Categories.SingleOrDefault(x => x != null && x.Id == categoryId);
+
+            var pokemonCategory = new PokemonCategory()
+            {
+                Category = pokemonCategoryEntity,
+                Pokemon = pokemon
+            };
+
+            _context.Add(pokemonCategory);
+
+            _context.Add(pokemon);
+
+            return Save();
+        }
+
+        public bool Save()
+            => _context.SaveChanges() > 0;
+        
     }
 }
