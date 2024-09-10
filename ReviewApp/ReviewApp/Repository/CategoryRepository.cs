@@ -22,5 +22,25 @@ namespace ReviewApp.Repository
         
         public bool IsCategoryExists(int id)
             => _context.Categories.Any(c => c != null && c.Id == id);
+
+        public bool CreateCategory(int pokemonId, Category category)
+        {
+            var pokemonEntity = _context.Pokemons.SingleOrDefault(x => x != null && x.Id == pokemonId);
+
+            var pokemonCategory = new PokemonCategory()
+            {
+                Category = category,
+                Pokemon = pokemonEntity
+            };
+
+            _context.Add(pokemonCategory);
+
+            _context.Add(category);
+
+            return Save();
+        }
+
+        public bool Save()
+            => context.SaveChanges() > 0;
     }
 }
