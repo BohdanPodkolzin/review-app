@@ -40,7 +40,7 @@ namespace ReviewApp.Repository
                 Pokemon = pokemon
             };
 
-            _context.Add(pokemonOwnerEntity);
+            _context.Add(pokemonOwner);
 
             var pokemonCategoryEntity = _context.Categories.SingleOrDefault(x => x != null && x.Id == categoryId);
 
