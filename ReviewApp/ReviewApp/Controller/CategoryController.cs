@@ -51,5 +51,34 @@ namespace ReviewApp.Controller
 
             return Ok(pokemons);
         }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateCategory([FromQuery] int pokemonId, [FromBody] CategoryDto? categoryCreate)
+        {
+            if (categoryCreate == null) return BadRequest(ModelState);
+
+            var categories = _categoryRepository
+                .GetCategories()
+                .FirstOrDefault(category => category.Name.Trim().ToUpper() == categoryCreate.Name.Trim().ToUpper());
+
+            if (categories != null)
+            {
+                ModelState.AddModelError("", "Category already exists");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var categoryMap = mapper.Map<Category>(categoryCreate);
+
+            if (_categoryRepository.CreateCategory(pokemonId, categoryMap))
+                return Ok("Successfully created category!");
+            
+            ModelState.AddModelError("", "Something went wrong");
+            return StatusCode(500, ModelState);
+        }
+
     }
 }
