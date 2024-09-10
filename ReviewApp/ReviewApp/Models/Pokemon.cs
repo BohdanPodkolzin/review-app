@@ -7,7 +7,7 @@
         public DateTime BirthDate { get; set; }
 
         public ICollection<Review> Reviews { get; set; } = [];
-
+        
         public List<PokemonOwner> PokemonOwner { get; set;  } = [];
         public List<Owner> Owners { get; } = [];
 
