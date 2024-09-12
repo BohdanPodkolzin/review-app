@@ -1,4 +1,7 @@
-﻿namespace ReviewApp.Dto
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace ReviewApp.Dto
 {
     public class ReviewDto
     {
@@ -7,5 +10,6 @@
         public string Text { get; set; }
         public decimal Rating { get; set; }
         public int ReviewerId { get; set; }
+        public int PokemonId { get; set; }
     }
 }

@@ -10,5 +10,8 @@ namespace ReviewApp.Service
         ICollection<Owner?> GetOwnersByCountry(int countryId);
         Country? GetCountryByOwner(int ownerId);
         bool IsCountryExists(int id);
+
+        bool CreateCountry(Country country);
+        protected bool Save();
     }
 }

@@ -9,5 +9,8 @@ namespace ReviewApp.Service
         ICollection<Review?> GetReviewsByReviewer(int reviewerId);
         ICollection<Review> GetReviewsOfPokemon(int pokemonId);
         bool IsReviewExists(int id);
+
+        bool CreateReview(Review review);
+        protected bool Save();
     }
 }

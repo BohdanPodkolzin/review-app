@@ -63,5 +63,12 @@ namespace ReviewApp.Controller
             return Ok(country);
         }
 
+        //[HttpPost]
+        //[ProducesResponseType(204)]
+        //[ProducesResponseType(404)]
+        //public IActionResult CreateCountry([FromBody] CountryDto countryCreate)
+        //{
+        //    if (countryCreate)
+        //}
     }
 }

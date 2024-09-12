@@ -24,5 +24,14 @@ namespace ReviewApp.Repository
 
         public bool IsCountryExists(int id)
             => _context.Countries.Any(c => c.Id == id);
+
+        public bool CreateCountry(Country country)
+        {
+            _context.Add(country);
+            return Save();
+        }
+
+        public bool Save()
+            => _context.SaveChanges() > 0;
     }
 }
