@@ -11,6 +11,8 @@ namespace ReviewApp.Service
         bool IsReviewExists(int id);
 
         bool CreateReview(Review review);
+        bool UpdateReview(Review review);
         protected bool Save();
+
     }
 }
