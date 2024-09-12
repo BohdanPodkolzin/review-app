@@ -28,5 +28,25 @@ namespace ReviewApp.Repository
 
         public bool IsOwnerExists(int id)
             => _context.Owners.Any(x => x != null && x.Id == id);
+
+        public bool CreateOwner(int pokemonId, Owner owner)
+        {
+            var pokemonEntity = _context.Pokemons.SingleOrDefault(p => p != null && p.Id == pokemonId);
+
+            var pokemonOwner = new PokemonOwner()
+            {
+                Pokemon = pokemonEntity,
+                Owner = owner
+            };
+
+            _context.Add(pokemonOwner);
+
+            _context.Add(owner);
+
+            return Save();
+        }
+
+        public bool Save() 
+            => _context.SaveChanges() > 0;
     }
 }

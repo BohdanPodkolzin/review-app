@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using ReviewApp.Dto;
 using ReviewApp.Models;
+using ReviewApp.Repository;
 using ReviewApp.Service;
 
 namespace ReviewApp.Controller
@@ -63,6 +64,38 @@ namespace ReviewApp.Controller
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             return Ok(pokemons);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateReview(int pokemonId, OwnerDto? ownerCreate)
+        {
+            if (ownerCreate == null) return BadRequest(ModelState);
+
+            var IsOwnerExists = _ownerRepository
+                .GetOwners()
+                .FirstOrDefault(owner => owner.FirstName.Trim().ToUpper() == ownerCreate.FirstName.Trim().ToUpper()
+                                                     && owner.LastName.Trim().ToUpper() == owner.LastName.Trim().ToUpper());
+
+            
+            if (IsOwnerExists != null)
+            {
+                ModelState.AddModelError("", "Owner with this name already exist");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var ownerMap = mapper.Map<Owner>(ownerCreate);
+
+            if (_ownerRepository.CreateOwner(pokemonId, ownerMap))
+                return Ok("Successfully created");
+
+            ModelState.AddModelError("", "Something went wrong");
+            return StatusCode(500, ModelState);
+
+
         }
 
     }

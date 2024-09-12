@@ -63,12 +63,32 @@ namespace ReviewApp.Controller
             return Ok(country);
         }
 
-        //[HttpPost]
-        //[ProducesResponseType(204)]
-        //[ProducesResponseType(404)]
-        //public IActionResult CreateCountry([FromBody] CountryDto countryCreate)
-        //{
-        //    if (countryCreate)
-        //}
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult CreateCountry([FromBody] CountryDto? countryCreate)
+        {
+            if (countryCreate == null) return BadRequest(ModelState);
+
+            var isCountryExists = countryRepository
+                .GetCountries()
+                .FirstOrDefault(country => country.Name.Trim().ToUpper() == countryCreate.Name.Trim().ToUpper());
+
+            if (isCountryExists != null)
+            {
+                ModelState.AddModelError("", "Country already exist");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var countryMap = mapper.Map<Country>(countryCreate);
+
+            if (countryRepository.CreateCountry(countryMap))
+                return Ok("Successfully created");
+
+            ModelState.AddModelError("", "Something went wrong");
+            return StatusCode(500, ModelState);
+        }
     }
 }

@@ -72,11 +72,12 @@ namespace ReviewApp.Controller
 
             var isReviewExists = _reviewRepository
                 .GetReviews()
-                .FirstOrDefault(review => review.Id == reviewCreate.Id);
+                .FirstOrDefault(review => review.Title.Trim().ToUpper() == reviewCreate.Title.Trim().ToUpper());
 
             if (isReviewExists != null)
             {
                 ModelState.AddModelError("", "Review with this Id already exist");
+                return StatusCode(422, ModelState);
             }
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
