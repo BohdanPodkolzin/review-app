@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ReviewApp.Dto;
+using ReviewApp.Models;
+using ReviewApp.Repository;
 using ReviewApp.Service;
 
 namespace ReviewApp.Controller
@@ -59,6 +61,33 @@ namespace ReviewApp.Controller
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             return Ok(reviews);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateReview([FromBody] ReviewDto? reviewCreate)
+        {
+            if (reviewCreate == null) return BadRequest(ModelState);
+
+            var isReviewExists = _reviewRepository
+                .GetReviews()
+                .FirstOrDefault(review => review.Id == reviewCreate.Id);
+
+            if (isReviewExists != null)
+            {
+                ModelState.AddModelError("", "Review with this Id already exist");
+            }
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var reviewMap = mapper.Map<Review>(reviewCreate);
+
+            if (reviewRepository.CreateReview(reviewMap))
+                return Ok("Successfully created");
+
+            ModelState.AddModelError("", "Something went wrong");
+            return StatusCode(500, ModelState);
         }
     }
 }

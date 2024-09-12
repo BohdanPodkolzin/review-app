@@ -59,6 +59,5 @@ namespace ReviewApp.Repository
 
         public bool Save()
             => _context.SaveChanges() > 0;
-        
     }
 }

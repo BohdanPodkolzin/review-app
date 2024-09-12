@@ -8,7 +8,6 @@ namespace ReviewApp.Repository
     {
         private readonly PokemonContext _context = context;
 
-
         public ICollection<Review> GetReviews()
             => _context.Reviews.OrderBy(r => r.Id).ToList();
 
@@ -29,5 +28,14 @@ namespace ReviewApp.Repository
 
         public bool IsReviewExists(int id)
             => _context.Reviews.Any(r => r != null && r.Id == id);
+
+        public bool CreateReview(Review review)
+        {
+            _context.Add(review);
+            return Save();
+        }
+
+        public bool Save()
+            => _context.SaveChanges() > 0;
     }
 }
