@@ -90,5 +90,24 @@ namespace ReviewApp.Controller
             ModelState.AddModelError("", "Something went wrong");
             return StatusCode(500, ModelState);
         }
+
+        [HttpPut]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateCountry(CountryDto? countryUpdate)
+        {
+            if (countryUpdate == null) return BadRequest(ModelState);
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var countryMap = mapper.Map<Country>(countryUpdate);
+
+            if (countryRepository.UpdateCountry(countryMap)) return Ok("Successfully updated");
+
+            ModelState.AddModelError("", "Something went wrong while updating");
+            return StatusCode(500, ModelState);
+
+        }
     }
 }

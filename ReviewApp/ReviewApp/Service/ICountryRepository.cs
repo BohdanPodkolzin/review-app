@@ -12,6 +12,7 @@ namespace ReviewApp.Service
         bool IsCountryExists(int id);
 
         bool CreateCountry(Country country);
+        bool UpdateCountry(Country country);
         protected bool Save();
     }
 }
