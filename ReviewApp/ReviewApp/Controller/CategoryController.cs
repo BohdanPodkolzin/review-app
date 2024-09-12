@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ReviewApp.Dto;
 using ReviewApp.Models;
 using ReviewApp.Service;
@@ -78,6 +79,25 @@ namespace ReviewApp.Controller
             
             ModelState.AddModelError("", "Something went wrong");
             return StatusCode(500, ModelState);
+        }
+
+        [HttpPut]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateCategory([FromBody]CategoryDto? categoryUpdate)
+        {
+            if (categoryUpdate == null) return BadRequest(ModelState);
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var categoryMap = mapper.Map<Category>(categoryUpdate);
+
+            if (_categoryRepository.UpdateCategory(categoryMap)) return Ok("Successfully updated!");
+
+            ModelState.AddModelError("", "Something went wrong when updating");
+            return StatusCode(500, ModelState)
+;
         }
 
     }

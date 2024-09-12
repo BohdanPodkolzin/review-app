@@ -10,6 +10,7 @@ namespace ReviewApp.Service
         ICollection<Pokemon> GetPokemonByCategory(int categoryId);
         bool IsCategoryExists(int id);
         bool CreateCategory(int pokemonId, Category category);
+        bool UpdateCategory(Category category);
         protected bool Save();
     }
 }
