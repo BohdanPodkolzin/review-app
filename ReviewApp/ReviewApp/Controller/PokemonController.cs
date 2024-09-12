@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Reflection.Metadata.Ecma335;
+using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ReviewApp.Dto;
 using ReviewApp.Interfaces;
@@ -74,6 +76,24 @@ namespace ReviewApp.Controller
                 return Ok("Successfully created!");
 
             ModelState.AddModelError("", "Something went wrong");
+            return StatusCode(500, ModelState);
+        }
+
+        [HttpPut]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdatePokemon([FromBody] PokemonDto? pokemonUpdate)
+        {
+            if (pokemonUpdate == null) return BadRequest(ModelState);
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var pokemonMap = mapper.Map<Pokemon>(pokemonUpdate);
+
+            if (pokemonRepository.UpdatePokemon(pokemonMap)) return Ok("Successfully updated!");
+
+            ModelState.AddModelError("", "Something went wrong when updating");
             return StatusCode(500, ModelState);
         }
     }

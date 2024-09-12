@@ -57,6 +57,13 @@ namespace ReviewApp.Repository
             return Save();
         }
 
+        public bool UpdatePokemon(Pokemon pokemon)
+        {
+            _context.Update(pokemon);
+            return Save();
+        }
+
+
         public bool Save()
             => _context.SaveChanges() > 0;
     }
