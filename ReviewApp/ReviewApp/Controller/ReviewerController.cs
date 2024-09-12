@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ReviewApp.Dto;
+using ReviewApp.Models;
 using ReviewApp.Service;
 
 namespace ReviewApp.Controller
@@ -50,5 +51,24 @@ namespace ReviewApp.Controller
 
             return Ok(reviews);
         }
+
+        [HttpPut]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateReviewer(ReviewerDto? reviewerUpdate)
+        {
+            if (reviewerUpdate == null) return BadRequest(ModelState);
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var reviewerMap = mapper.Map<Reviewer>(reviewerUpdate);
+
+            if (_reviewerRepository.UpdateReviewer(reviewerMap)) return Ok("Successfully updated");
+
+            ModelState.AddModelError("", "Something went wrong while updating");
+            return StatusCode(500, ModelState);
+        }
+
     }
 }

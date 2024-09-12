@@ -19,8 +19,16 @@ namespace ReviewApp.Repository
                 .Where(r => r.ReviewerId == reviewerId)
                 .OrderBy(r => r.Id)
                 .ToList();
-
         public bool IsReviewerExists(int id)
             => _context.Reviewers.Any(r => r != null && r.Id == id);
+
+        public bool UpdateReviewer(Reviewer reviewer)
+        {
+            _context.Update(reviewer);
+            return Save();
+        }
+
+        public bool Save()
+            => _context.SaveChanges() > 0;
     }
 }

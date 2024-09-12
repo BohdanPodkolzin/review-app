@@ -7,6 +7,9 @@ namespace ReviewApp.Service
         ICollection<Reviewer> GetReviewers();
         Reviewer? GetReviewer(int id);
         ICollection<Review> GetReviewsByReviewer(int reviewerId);
+
         bool IsReviewerExists(int id);
+        bool UpdateReviewer(Reviewer reviewer);
+        protected bool Save();
     }
 }
