@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 using ReviewApp.Dto;
 using ReviewApp.Models;
-using ReviewApp.Repository;
 using ReviewApp.Service;
 
 namespace ReviewApp.Controller
@@ -94,8 +92,24 @@ namespace ReviewApp.Controller
 
             ModelState.AddModelError("", "Something went wrong");
             return StatusCode(500, ModelState);
+        }
 
+        [HttpPut]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateOwner([FromBody] OwnerDto? ownerUpdate)
+        {
+            if (ownerUpdate == null) return BadRequest(ModelState);
 
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var ownerMap = mapper.Map<Owner>(ownerUpdate);
+
+            if (_ownerRepository.UpdateOwner(ownerMap)) return Ok("Successfully updated!");
+
+            ModelState.AddModelError("", "Something went wrong while updating");
+            return StatusCode(500, ModelState);
         }
 
     }
