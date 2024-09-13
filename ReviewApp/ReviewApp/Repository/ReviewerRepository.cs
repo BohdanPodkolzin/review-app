@@ -28,6 +28,12 @@ namespace ReviewApp.Repository
             return Save();
         }
 
+        public bool DeleteReview(Reviewer reviewer)
+        {
+            _context.Remove(reviewer);
+            return Save();
+        }
+
         public bool Save()
             => _context.SaveChanges() > 0;
     }

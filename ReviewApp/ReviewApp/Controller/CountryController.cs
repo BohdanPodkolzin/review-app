@@ -107,7 +107,24 @@ namespace ReviewApp.Controller
 
             ModelState.AddModelError("", "Something went wrong while updating");
             return StatusCode(500, ModelState);
+        }
 
+        [HttpDelete("{countryId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult countryDelete(int countryId, CountryDto? countryDelete)
+        {
+            if (countryDelete == null) return BadRequest(ModelState);
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var countryMap = mapper.Map<Country>(countryDelete);
+
+            if (countryRepository.DeleteCountry(countryMap)) return Ok("Successfully deleted");
+
+            ModelState.AddModelError("", "Something went wrong while deleting");
+            return StatusCode(500, ModelState);
         }
     }
 }

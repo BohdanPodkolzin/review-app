@@ -109,5 +109,22 @@ namespace ReviewApp.Controller
             return StatusCode(500, ModelState);
         }
 
+        [HttpDelete("{reviewId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult ReviewDelete(int reviewId, ReviewDto? reviewDelete)
+        {
+            if (reviewDelete == null) return BadRequest(ModelState);
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var reviewMap = mapper.Map<Review>(reviewDelete);
+
+            if (_reviewRepository.DeleteReview(reviewMap)) return Ok("Successfully deleted");
+
+            ModelState.AddModelError("", "Something went wrong while deleting");
+            return StatusCode(500, ModelState);
+        }
     }
 }

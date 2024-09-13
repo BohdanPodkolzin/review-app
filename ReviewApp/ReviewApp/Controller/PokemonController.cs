@@ -96,5 +96,23 @@ namespace ReviewApp.Controller
             ModelState.AddModelError("", "Something went wrong when updating");
             return StatusCode(500, ModelState);
         }
+
+        [HttpDelete("{pokemonId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult PokemonDelete(int pokemonId, PokemonDto? pokemonDelete)
+        {
+            if (pokemonDelete == null) return BadRequest(ModelState);
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var pokemonMap = mapper.Map<Pokemon>(pokemonDelete);
+
+            if (pokemonRepository.DeletePokemon(pokemonMap)) return Ok("Successfully deleted");
+
+            ModelState.AddModelError("", "Something went wrong while deleting");
+            return StatusCode(500, ModelState);
+        }
     }
 }

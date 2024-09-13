@@ -96,9 +96,25 @@ namespace ReviewApp.Controller
             if (_categoryRepository.UpdateCategory(categoryMap)) return Ok("Successfully updated!");
 
             ModelState.AddModelError("", "Something went wrong when updating");
-            return StatusCode(500, ModelState)
-;
+            return StatusCode(500, ModelState);
         }
 
+        [HttpDelete("{categoryId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult CategoryDelete(int categoryId, CategoryDto? categoryDelete)
+        {
+            if (categoryDelete == null) return BadRequest(ModelState);
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var categoryMap = mapper.Map<Category>(categoryDelete);
+
+            if (_categoryRepository.DeleteCategory(categoryMap)) return Ok("Successfully deleted");
+
+            ModelState.AddModelError("", "Something went wrong while deleting");
+            return StatusCode(500, ModelState);
+        }
     }
 }

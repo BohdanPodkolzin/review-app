@@ -10,6 +10,7 @@ namespace ReviewApp.Service
 
         bool IsReviewerExists(int id);
         bool UpdateReviewer(Reviewer reviewer);
+        bool DeleteReview(Reviewer reviewer);
         protected bool Save();
     }
 }

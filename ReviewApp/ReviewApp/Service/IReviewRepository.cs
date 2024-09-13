@@ -12,6 +12,7 @@ namespace ReviewApp.Service
 
         bool CreateReview(Review review);
         bool UpdateReview(Review review);
+        bool DeleteReview(Review review);
         protected bool Save();
 
     }

@@ -14,6 +14,7 @@ namespace ReviewApp.Service
 
         bool CreateOwner(int pokemonId, Owner owner);
         bool UpdateOwner(Owner owner);
+        bool DeleteOwner(Owner owner);
         protected bool Save();
     }
 }

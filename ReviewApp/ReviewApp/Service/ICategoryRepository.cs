@@ -11,6 +11,7 @@ namespace ReviewApp.Service
         bool IsCategoryExists(int id);
         bool CreateCategory(int pokemonId, Category category);
         bool UpdateCategory(Category category);
+        bool DeleteCategory(Category category);
         protected bool Save();
     }
 }
